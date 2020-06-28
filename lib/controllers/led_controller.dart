@@ -27,9 +27,6 @@ class _LedControllerState extends State<LedController> {
     super.dispose();
   }
 
-  LedSlider slider;
-  GlobalKey<LedSliderState> sliderKey = GlobalKey<LedSliderState>();
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -51,24 +48,13 @@ class _LedControllerState extends State<LedController> {
 
         final newValue = (data['value'] as num).toDouble();
 
-        slider = slider ??
-            LedSlider(
-              key: sliderKey,
-              initValue: newValue,
-              onSliderValueChange: (value) {
-                var message = {'message': 'set_led_1', 'value': value};
-                channel.sink.add(jsonEncode(message));
-              },
-            );
-
-        if (sliderKey.currentState != null &&
-            sliderKey.currentState.value != newValue &&
-            !sliderKey.currentState.isActive) {
-          sliderKey.currentState.setState(() {
-            sliderKey.currentState.value = newValue;
-          });
-        }
-        return slider;
+        return LedSlider(
+          initValue: newValue,
+          onSliderValueChange: (value) {
+            var message = {'message': 'set_led_1', 'value': value};
+            channel.sink.add(jsonEncode(message));
+          },
+        );
       },
     );
   }

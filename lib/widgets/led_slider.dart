@@ -19,11 +19,11 @@ class LedSliderState extends State<LedSlider> {
 
   @override
   void didUpdateWidget(LedSlider oldWidget) {
-    print('led slider config changes');
+    if(widget.initValue != oldWidget.initValue && !isActive && value != widget.initValue){
+      value = widget.initValue;
+    }
     super.didUpdateWidget(oldWidget);
   }
-
-
 
   @override
   void initState() {
