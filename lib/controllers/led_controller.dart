@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+import '../settings.dart';
 import '../widgets/led_slider.dart';
 
 class LedController extends StatefulWidget {
@@ -17,7 +18,7 @@ class _LedControllerState extends State<LedController> {
   @override
   void initState() {
     super.initState();
-    channel = IOWebSocketChannel.connect('ws://192.168.88.229:8082');
+    channel = IOWebSocketChannel.connect(led1url);
   }
 
   @override
@@ -50,7 +51,6 @@ class _LedControllerState extends State<LedController> {
 
         final newValue = (data['value'] as num).toDouble();
 
-
         slider = slider ??
             LedSlider(
               key: sliderKey,
@@ -60,7 +60,6 @@ class _LedControllerState extends State<LedController> {
                 channel.sink.add(jsonEncode(message));
               },
             );
-
 
         if (sliderKey.currentState != null &&
             sliderKey.currentState.value != newValue &&
